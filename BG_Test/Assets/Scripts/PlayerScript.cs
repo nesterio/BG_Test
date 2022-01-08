@@ -69,6 +69,12 @@ public class PlayerScript : MonoBehaviour
     		agent.enabled = true;
     		agent.SetDestination(destination.position);
     	}
+
+    	if(col.CompareTag("Destination"))
+    	{
+    		GetComponentInChildren<ParticleSystem>().Play();
+    		GameObject.FindWithTag("Manager").GetComponent<ManagerScript>().FadeIn();
+    	}
     }
 
     void Update()
