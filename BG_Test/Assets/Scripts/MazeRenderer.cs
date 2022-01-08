@@ -11,11 +11,16 @@ public class MazeRenderer : MonoBehaviour
 	[Range(1, 50)]
 	[SerializeField]private int height = 10;
 
+	[SerializeField]private int TrapSpawnProbability;
+
 	[Header("Assigning prefabs")]
 	[SerializeField]private Transform wallPrefab = null;
-	[SerializeField]private Transform floorObj = null;
+	[SerializeField]private Transform trapPrefab = null;
 	[SerializeField]private Transform playerPrefab = null;
 	[SerializeField]private Transform exitPrefab = null;
+
+	[Header("Assigning objects")]
+	[SerializeField]private Transform floorObj = null;
 
 	private Transform player;
 	private Transform exit;
@@ -88,10 +93,17 @@ public class MazeRenderer : MonoBehaviour
     				exit.position = position + new Vector3(0, exit.localScale.y/2, 0);
     			}
 
+    			int rng = Random.Range(0, TrapSpawnProbability + 1);
+    			if(rng == TrapSpawnProbability)
+    			{
+    				var trap = Instantiate(trapPrefab, transform);
+    				trap.position = position + new Vector3(0, trap.localScale.y/2, 0);
+    			}
+
     		}
     	}
 
-    	player.GetComponent<PlayerScript>().SetTarget(exit);
+    	player.GetComponent<PlayerScript>().StartGame(exit);
 
     }
 
